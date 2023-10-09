@@ -1,11 +1,16 @@
 package org.supermarket.products;
 
 public class Item {
-    private int uniqueId;
-    private String name;
-    private double price;
-    private int quantity;
-    private  String category;
+    private int uniqueId=0;
+    private String name="";
+    private double price=0;
+    private int quantity=0;
+    private  String category="";
+
+    private String description;
+    private String type;
+
+    public Item(){}
 
     public String getType() {
         return type;
@@ -15,8 +20,6 @@ public class Item {
         this.type = type;
     }
 
-    private String description;
-    private String type;
 
     public int getUniqueId() {
         return uniqueId;

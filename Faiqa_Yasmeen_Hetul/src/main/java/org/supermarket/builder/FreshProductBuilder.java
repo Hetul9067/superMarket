@@ -1,14 +1,12 @@
 package org.supermarket.builder;
 
-//import org.supermarket.*;
 import org.supermarket.products.Item;
-//import main.java.products.Item;
 
-public class GroceriesItemBuilder implements ICategoryBuilder{
+public class FreshProductBuilder implements ICategoryBuilder{
 
     private Item item;
 
-    public GroceriesItemBuilder(){
+    public FreshProductBuilder(){
         this.item = new Item();
     }
     @Override
@@ -21,7 +19,7 @@ public class GroceriesItemBuilder implements ICategoryBuilder{
         this.item.setName(name);
         this.item.setPrice(price);
         this.item.setType(type);
-        this.item.setCategory("Groceries Category: ");
+        this.item.setCategory("FreshProduct Category: ");
     }
 
     @Override

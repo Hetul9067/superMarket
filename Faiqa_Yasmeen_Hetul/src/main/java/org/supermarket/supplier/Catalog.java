@@ -1,5 +1,7 @@
 package org.supermarket.supplier;
 
+import org.supermarket.builder.FreshProductBuilder;
+import org.supermarket.builder.ICategoryBuilder;
 import org.supermarket.products.Item;
 import org.apache.poi.ss.usermodel.*;
 
@@ -9,26 +11,33 @@ import java.util.Map;
 
 public class Catalog {
 
-    List<Map<String, Object>> itemsData  = new ArrayList<>();
-    ArrayList<Item> items = new ArrayList<>(6);
+    private List<Map<String, Object>> itemsData  = new ArrayList<>();
 
-    public void createCatalog(){
 
-        itemsData = ExcelDataReader.fetchExcelData();
-        for(Map<String, Object> row : itemsData){
-            System.out.println(row.get("Column0"));
-            System.out.println(row.get("Column1"));
-            System.out.println(row.get("Column2"));
-            System.out.println(row.get("Column3"));
-            System.out.println(row.get("Column4"));
-            System.out.println(row.get("Column5"));
+    private ArrayList<Item> items = new ArrayList<>(6);
 
-            System.out.println();
-            System.out.println();
-        }
+    ICategoryBuilder iBuilder = new FreshProductBuilder();
+
+    public void createItem(Map<String, Object> m, ICategoryBuilder ib){
+
+        this.iBuilder = ib;
+        double uid = Math.round((double)m.get("Column0"));
+        this.iBuilder.buildUniqueId((int ) uid );
+        this.iBuilder.buildItem(m.get("Column1")+"", (double) m.get("Column2"), m.get("Column4")+"");
+        this.iBuilder.buildDescription(m.get("Column5")+"");
+        this.items.add(this.iBuilder.getItem());
+
+
+
+//        System.out.println(m.get("Column0"));
+//        System.out.println(m.get("Column1"));
+//        System.out.println(m.get("Column2"));
+//        System.out.println(m.get("Column3"));
+//        System.out.println(m.get("Column4"));
+//        System.out.println(m.get("Column5"));
+//
 
     }
-
 
 
     public int generateUID(){
@@ -40,5 +49,28 @@ public class Catalog {
         return null;
     }
 
+    public List<Map<String, Object>> getItemsData() {
+        return itemsData;
+    }
+
+    public void setItemsData(List<Map<String, Object>> itemsData) {
+        this.itemsData = itemsData;
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
+    }
+
+    public ICategoryBuilder getiBuilder() {
+        return iBuilder;
+    }
+
+    public void setiBuilder(ICategoryBuilder iBuilder) {
+        this.iBuilder = iBuilder;
+    }
 
 }
