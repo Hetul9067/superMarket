@@ -15,18 +15,6 @@ public class Main {
 
         sup1.displaySuperMarket();
 
-//        for(Catalog c : s1.getCatalogs()){
-//            System.out.println();
-//            System.out.println();
-//            for(Item i : c.getItems()){
-//                System.out.println(i.getUniqueId());
-//                System.out.println(i.getName());
-//                System.out.println(i.getPrice());
-//                System.out.println(i.getCategory());
-//                System.out.println(i.getType());
-//                System.out.println(i.getDescription());
-//            }
-//        }
 
 
     }
