@@ -22,8 +22,8 @@ public class WareHouse {
 
     private Map<Integer, Item> itemsMapById= new HashMap<>();
     private Map<String, Item> itemsMapByName= new HashMap<>();
-    private int totalItemBought =0;
-    private int totalItemSold =0;
+    private double totalItemBought =0;
+    private double totalItemSold =0;
 
 
     public Item createItem(Item itemSup, double quantity){
@@ -41,8 +41,10 @@ public class WareHouse {
         this.inventories.add(this.iBuilder.getItem());
         this.itemsMapById.put(this.iBuilder.getItem().getUniqueId(), this.iBuilder.getItem());
         this.itemsMapByName.put(this.iBuilder.getItem().getName(), this.iBuilder.getItem());
-        this.itemsBought.add(this.iBuilder.getItem());
-        this.totalItemBought++;
+
+        //we are creating new item object and passing it to the itemsBought list
+        this.itemsBought.add(this.createItemBought(this.iBuilder.getItem(), quantity));
+        this.totalItemBought+= quantity;
 
         return this.iBuilder.getItem();
 
@@ -99,7 +101,7 @@ public class WareHouse {
 
     }
 
-    public void findItemInSold(String iName, double quantity){
+    public boolean findItemInSold(String iName, double quantity){
         boolean checkItem = false;
         for(int i=0; i<this.itemsSold.size();i++){
             if(this.itemsSold.get(i).equals(iName)){
@@ -107,7 +109,48 @@ public class WareHouse {
                 this.itemsSold.get(i).setQuantitySold(this.itemsSold.get(i).getQuantitySold()+quantity);
             }
         }
+        return checkItem;
 
+
+
+    }
+    public Item createItemSold(Item itemWareHouse, double quantity){
+        this.iBuilder = createBuilder(itemWareHouse.getCategory());
+
+        this.iBuilder.buildUniqueId(itemWareHouse.getUniqueId() );
+
+        this.iBuilder.buildItem(itemWareHouse.getName(), itemWareHouse.getPrice(), itemWareHouse.getType());
+
+        this.iBuilder.buildDescription(itemWareHouse.getDescription());
+
+        //setting the selling price
+        this.iBuilder.buildSellingPriceAndQuantity(itemWareHouse.getPrice()*1.35, quantity);
+
+        this.itemsSold.add(this.iBuilder.getItem());
+
+        return this.iBuilder.getItem();
+    }
+
+    public Item createItemBought(Item itemWareHouse, double quantity){
+        this.iBuilder = createBuilder(itemWareHouse.getCategory());
+
+        this.iBuilder.buildUniqueId(itemWareHouse.getUniqueId() );
+
+        this.iBuilder.buildItem(itemWareHouse.getName(), itemWareHouse.getPrice(), itemWareHouse.getType());
+
+        this.iBuilder.buildDescription(itemWareHouse.getDescription());
+
+        //setting the selling price
+        this.iBuilder.buildSellingPriceAndQuantity(itemWareHouse.getPrice()*1.35, quantity);
+
+        this.itemsBought.add(this.iBuilder.getItem());
+
+        return this.iBuilder.getItem();
+    }
+
+
+    public void addItemsSold(Item item, double quantity){
+        this.itemsSold.add(this.createItemSold(item, quantity));
 
     }
 
@@ -201,19 +244,19 @@ public class WareHouse {
         this.itemsMapByName = itemsMapByName;
     }
 
-    public int getTotalItemBought() {
+    public double getTotalItemBought() {
         return totalItemBought;
     }
 
-    public void setTotalItemBought(int totalItemBought) {
+    public void setTotalItemBought(double totalItemBought) {
         this.totalItemBought = totalItemBought;
     }
 
-    public int getTotalItemSold() {
+    public double getTotalItemSold() {
         return totalItemSold;
     }
 
-    public void setTotalItemSold(int totalItemSold) {
+    public void setTotalItemSold(double totalItemSold) {
         this.totalItemSold = totalItemSold;
     }
 }

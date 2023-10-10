@@ -46,7 +46,7 @@ public class SuperMarket {
             int ans = DisplaySuperMarket.display();
             switch(ans){
                 case 1:
-//                    sellInventory();
+                    sellInventory();
                     break;
                 case 2:
                     buyInventory();
@@ -154,12 +154,17 @@ public class SuperMarket {
             System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
         }else{
             i1.setQuantity(i1.getQuantity()-quantity);
-            this.wareHouse.setTotalItemBought(this.wareHouse.getTotalItemSold()+1);
+            this.wareHouse.setTotalItemSold(this.wareHouse.getTotalItemSold()+quantity);
             double sold = (i1.getQuantity()*i1.getSellingPrice());
             totalSales += sold;
             totalProfit += (sold - (i1.getQuantity()*i1.getPrice()));
+            budget += sold;
 
-            //findItemInSold();
+            boolean itemInSoldChecker = this.wareHouse.findItemInSold(i1.getName(), i1.getQuantity());
+            if(!itemInSoldChecker){
+
+                this.wareHouse.addItemsSold(i1, quantity);
+            }
 
 
         }
@@ -205,7 +210,7 @@ public class SuperMarket {
             checkedItem.setQuantity(checkedItem.getQuantity()+quantity);
             checkedItem.setSellingPrice(checkedItem.getPrice()*1.35);
             this.wareHouse.findItemInBought(checkedItem.getName(), quantity);
-
+            this.wareHouse.setTotalItemBought(this.wareHouse.getTotalItemBought()+quantity);
 
         }
 

@@ -73,11 +73,11 @@ public class DisplaySuperMarket {
 
     //display all the items from the list
     public static void displayItems(ArrayList<Item> items){
-        System.out.println("UniqueId || Name         ||   Price    ||   Category   ||   Type   ||   Description   ||");
+        System.out.println("UniqueId || Name         ||   BuyingPrice    ||   SellingPrice   ||   Quantity   ||   Category   ||   Type   ||   Description   ||");
         for(Item i : items){
 
             System.out.println(i.getUniqueId() + " || "+
-                    i.getName() + "    || "+ i.getPrice() + "    || "+i.getCategory() + "    || "+i.getType() + "    || "+i.getDescription()+" ||");
+                    i.getName() + "    || "+ i.getPrice() + "    || "+ i.getSellingPrice()+"   || "+ i.getQuantity()+"   || "+i.getCategory() + "    || "+i.getType() + "    || "+i.getDescription()+" ||");
         }
     }
     public static void displayItemSearchOption(){
