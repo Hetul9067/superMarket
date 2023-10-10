@@ -23,6 +23,12 @@ public class BakeryBuilder implements ICategoryBuilder{
     }
 
     @Override
+    public void buildSellingPriceAndQuantity(double sellingPrice, double quantity){
+        this.item.setSellingPrice(sellingPrice);
+        this.item.setQuantity(quantity);
+    }
+
+    @Override
     public void buildDescription(String description) {
         this.item.setDescription(description);
     }

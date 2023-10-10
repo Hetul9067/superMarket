@@ -4,7 +4,10 @@ public class Item {
     private int uniqueId=0;
     private String name="";
     private double price=0;
-    private int quantity=0;
+    private double sellingPrice = 0;
+    private double quantity=0;
+    private double quantitySold = 0;
+    private double quantityBought = 0;
     private  String category="";
 
     private String description;
@@ -45,11 +48,11 @@ public class Item {
         this.price = price;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 
@@ -69,7 +72,27 @@ public class Item {
         this.description = description;
     }
 
+    public double getSellingPrice() {
+        return sellingPrice;
+    }
 
+    public void setSellingPrice(double sellingPrice) {
+        this.sellingPrice = sellingPrice;
+    }
 
+    public double getQuantitySold() {
+        return quantitySold;
+    }
 
+    public void setQuantitySold(double quantitySold) {
+        this.quantitySold = quantitySold;
+    }
+
+    public double getQuantityBought() {
+        return quantityBought;
+    }
+
+    public void setQuantityBought(double quantityBought) {
+        this.quantityBought = quantityBought;
+    }
 }

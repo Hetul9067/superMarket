@@ -6,6 +6,7 @@ import org.supermarket.products.Item;
 import org.apache.poi.ss.usermodel.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,11 @@ public class Catalog {
 
     private List<Map<String, Object>> itemsData  = new ArrayList<>();
 
+    //for searching item by name in map in constant time      || time complexity = O(1)
+    private Map<String, Item> searchByName= new HashMap<>() ;
 
+    //for searching item by index in map in constant time      || time complexity = O(1)
+    private Map<Integer, Item> searchByIndex = new HashMap<>();
     private ArrayList<Item> items = new ArrayList<>(6);
 
     ICategoryBuilder iBuilder = new FreshProductBuilder();
@@ -26,6 +31,9 @@ public class Catalog {
         this.iBuilder.buildItem(m.get("Column1")+"", (double) m.get("Column2"), m.get("Column4")+"");
         this.iBuilder.buildDescription(m.get("Column5")+"");
         this.items.add(this.iBuilder.getItem());
+        this.searchByIndex.put(this.iBuilder.getItem().getUniqueId(), this.iBuilder.getItem());
+        this.searchByName.put(this.iBuilder.getItem().getName(), this.iBuilder.getItem());
+
 
 
 
@@ -73,4 +81,19 @@ public class Catalog {
         this.iBuilder = iBuilder;
     }
 
+    public Map<String, Item> getSearchByName() {
+        return searchByName;
+    }
+
+    public void setSearchByName(Map<String, Item> searchByName) {
+        this.searchByName = searchByName;
+    }
+
+    public Map<Integer, Item> getSearchByIndex() {
+        return searchByIndex;
+    }
+
+    public void setSearchByIndex(Map<Integer, Item> searchByIndex) {
+        this.searchByIndex = searchByIndex;
+    }
 }
