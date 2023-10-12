@@ -338,6 +338,7 @@ public class SuperMarket {
         System.out.println();
         System.out.println("=========================================");
         System.out.println("Current Date and Time : " + formattedTime);
+        System.out.println("Supermarket's budget : "+ this.budget);
         System.out.println("Total number of items bought : " + this.wareHouse.getTotalItemBought());
         System.out.println("Total number of items sold : "+ this.wareHouse.getTotalItemSold());
         System.out.println("Total cost of all items purchased : "+ this.itemPurchasedCost);
@@ -376,6 +377,7 @@ public class SuperMarket {
                 e.setSalary(e.getSalary()+salary);
                 this.totalExpanses += salary;
                 this.budget -= salary;
+                this.amountPaidEmployees += salary;
             }
 
             System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");

@@ -8,8 +8,8 @@ public class GroceriesItemBuilder implements ICategoryBuilder{
 
     private Item item;
 
-    public GroceriesItemBuilder(){
-        this.item = new Item();
+    public GroceriesItemBuilder(Item item){
+        this.item = item;
     }
     @Override
     public void buildUniqueId(int id) {
@@ -21,7 +21,7 @@ public class GroceriesItemBuilder implements ICategoryBuilder{
         this.item.setName(name);
         this.item.setPrice(price);
         this.item.setType(type);
-        this.item.setCategory("Groceries Category: ");
+        this.item.setCategory("grocery");
     }
 
     @Override

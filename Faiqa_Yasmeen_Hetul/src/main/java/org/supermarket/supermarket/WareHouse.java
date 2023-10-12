@@ -5,6 +5,7 @@ import org.supermarket.builder.BakeryBuilder;
 import org.supermarket.builder.FreshProductBuilder;
 import org.supermarket.builder.GroceriesItemBuilder;
 import org.supermarket.builder.ICategoryBuilder;
+import org.supermarket.factory.AbstractFactory;
 import org.supermarket.products.Item;
 import org.supermarket.supplier.Supplier;
 
@@ -15,7 +16,7 @@ import java.util.Scanner;
 
 public class WareHouse {
     private Scanner sc = new Scanner(System.in);
-    private ICategoryBuilder iBuilder = new FreshProductBuilder();
+    private ICategoryBuilder iBuilder;
     private ArrayList<Item> inventories = new ArrayList<>();
     private ArrayList<Item> itemsSold = new ArrayList<>();
     private ArrayList<Item> itemsBought = new ArrayList<>();
@@ -27,8 +28,10 @@ public class WareHouse {
 
 
     public Item createItem(Item itemSup, double quantity){
-        this.iBuilder = createBuilder(itemSup.getCategory());
 
+        //this.iBuilder = createBuilder(itemSup.getCategory());
+
+        this.iBuilder = AbstractFactory.factoryMethod(itemSup.getCategory()).makeItem();
         this.iBuilder.buildUniqueId(itemSup.getUniqueId() );
 
         this.iBuilder.buildItem(itemSup.getName(), itemSup.getPrice(), itemSup.getType());
@@ -49,16 +52,16 @@ public class WareHouse {
         return this.iBuilder.getItem();
 
     }
-    public ICategoryBuilder createBuilder(String category){
-        if(category.toLowerCase().equals("freshproduct category: ")){
-            return new FreshProductBuilder();
-        }else if(category.toLowerCase().equals("Bakery Category: ".toLowerCase())){
-            return new BakeryBuilder();
-        }else if(category.toLowerCase().equals("Groceries Category: ".toLowerCase())){
-            return new GroceriesItemBuilder();
-        }
-        return null;
-    }
+//    public ICategoryBuilder createBuilder(String category){
+//        if(category.toLowerCase().equals("freshproduct category: ")){
+//            return new FreshProductBuilder();
+//        }else if(category.toLowerCase().equals("Bakery Category: ".toLowerCase())){
+//            return new BakeryBuilder();
+//        }else if(category.toLowerCase().equals("Groceries Category: ".toLowerCase())){
+//            return new GroceriesItemBuilder();
+//        }
+//        return null;
+//    }
 
     //find the item in inventories
     public Item findTheItem(Item itemSup){
@@ -115,8 +118,9 @@ public class WareHouse {
 
     }
     public Item createItemSold(Item itemWareHouse, double quantity){
-        this.iBuilder = createBuilder(itemWareHouse.getCategory());
+        //this.iBuilder = createBuilder(itemWareHouse.getCategory());
 
+        this.iBuilder = AbstractFactory.factoryMethod(itemWareHouse.getCategory()).makeItem();
         this.iBuilder.buildUniqueId(itemWareHouse.getUniqueId() );
 
         this.iBuilder.buildItem(itemWareHouse.getName(), itemWareHouse.getPrice(), itemWareHouse.getType());
@@ -134,8 +138,9 @@ public class WareHouse {
 
     //building new Item Object for bought Item tracking
     public Item createItemBought(Item itemWareHouse, double quantity){
-        this.iBuilder = createBuilder(itemWareHouse.getCategory());
+        //this.iBuilder = createBuilder(itemWareHouse.getCategory());
 
+        this.iBuilder = AbstractFactory.factoryMethod(itemWareHouse.getCategory()).makeItem();
         this.iBuilder.buildUniqueId(itemWareHouse.getUniqueId() );
 
         this.iBuilder.buildItem(itemWareHouse.getName(), itemWareHouse.getPrice(), itemWareHouse.getType());

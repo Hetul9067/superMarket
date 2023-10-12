@@ -21,29 +21,20 @@ public class Catalog {
     private Map<Integer, Item> searchByIndex = new HashMap<>();
     private ArrayList<Item> items = new ArrayList<>(6);
 
-    ICategoryBuilder iBuilder = new FreshProductBuilder();
+    private ICategoryBuilder iBuilder = null;
 
     public void createItem(Map<String, Object> m, ICategoryBuilder ib){
 
         this.iBuilder = ib;
         double uid = Math.round((double)m.get("Column0"));
         this.iBuilder.buildUniqueId((int ) uid );
-        this.iBuilder.buildItem(m.get("Column1")+"", (double) m.get("Column2"), m.get("Column4")+"");
+        this.iBuilder.buildItem(m.get("Column1")+"".toLowerCase(), (double) m.get("Column2"), m.get("Column4")+"".toLowerCase());
         this.iBuilder.buildDescription(m.get("Column5")+"");
         this.items.add(this.iBuilder.getItem());
         this.searchByIndex.put(this.iBuilder.getItem().getUniqueId(), this.iBuilder.getItem());
         this.searchByName.put(this.iBuilder.getItem().getName(), this.iBuilder.getItem());
 
 
-
-
-//        System.out.println(m.get("Column0"));
-//        System.out.println(m.get("Column1"));
-//        System.out.println(m.get("Column2"));
-//        System.out.println(m.get("Column3"));
-//        System.out.println(m.get("Column4"));
-//        System.out.println(m.get("Column5"));
-//
 
     }
 

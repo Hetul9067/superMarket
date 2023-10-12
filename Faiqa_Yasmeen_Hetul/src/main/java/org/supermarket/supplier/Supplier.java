@@ -4,6 +4,7 @@ import org.supermarket.builder.BakeryBuilder;
 import org.supermarket.builder.FreshProductBuilder;
 import org.supermarket.builder.GroceriesItemBuilder;
 import org.supermarket.builder.ICategoryBuilder;
+import org.supermarket.factory.AbstractFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class Supplier {
 
 
 
-    public ICategoryBuilder createBuilder(String category){
+    /*public ICategoryBuilder createBuilder(String category){
         if(category.toLowerCase().equals("freshproduct")){
             return new FreshProductBuilder();
         }else if(category.toLowerCase().equals("bakery")){
@@ -51,7 +52,7 @@ public class Supplier {
             return new GroceriesItemBuilder();
         }
         return null;
-    }
+    }*/
     public void generateCatalogs(){
         itemsData = ExcelDataReader.fetchExcelData();
 
@@ -67,7 +68,9 @@ public class Supplier {
                     catalogs.add(c1);
 
             }
-            ICategoryBuilder i1 = createBuilder(row.get("Column3")+"");
+            //ICategoryBuilder i1 = createBuilder(row.get("Column3")+"");
+            //we are creating the object of a builder using factory design pattern
+            ICategoryBuilder i1 = AbstractFactory.factoryMethod(row.get("Column3")+"".toLowerCase()).makeItem();
             c1.createItem(row, i1);
             count++;
 

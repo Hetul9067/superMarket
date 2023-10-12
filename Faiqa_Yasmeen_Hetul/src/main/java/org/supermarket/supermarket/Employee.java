@@ -11,7 +11,7 @@ public class Employee {
         this.name = name;
         this.salary = salary;
         this.lastPayTime = lastPayTime;
-        System.out.println("name :  "+name+ " salary : "+ salary + " last pay : "+ lastPayTime);
+
 
     }
 

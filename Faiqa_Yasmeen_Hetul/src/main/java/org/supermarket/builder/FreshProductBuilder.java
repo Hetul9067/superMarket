@@ -6,8 +6,8 @@ public class FreshProductBuilder implements ICategoryBuilder{
 
     private Item item;
 
-    public FreshProductBuilder(){
-        this.item = new Item();
+    public FreshProductBuilder(Item item){
+        this.item = item;
     }
     @Override
     public void buildUniqueId(int id) {
@@ -19,7 +19,7 @@ public class FreshProductBuilder implements ICategoryBuilder{
         this.item.setName(name);
         this.item.setPrice(price);
         this.item.setType(type);
-        this.item.setCategory("FreshProduct Category: ");
+        this.item.setCategory("freshproduct");
     }
 
     @Override
