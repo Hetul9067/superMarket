@@ -304,7 +304,9 @@ public class SuperMarket {
             this.wareHouse.findItemInBought(checkedItem.getName(), quantity);
             this.wareHouse.setTotalItemBought(this.wareHouse.getTotalItemBought()+quantity);
 
+
         }
+
 
         this.itemPurchasedCost += (checkedItem.getPrice()* quantity);
         this.totalExpanses += (checkedItem.getPrice() * quantity);

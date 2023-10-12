@@ -52,16 +52,7 @@ public class WareHouse {
         return this.iBuilder.getItem();
 
     }
-//    public ICategoryBuilder createBuilder(String category){
-//        if(category.toLowerCase().equals("freshproduct category: ")){
-//            return new FreshProductBuilder();
-//        }else if(category.toLowerCase().equals("Bakery Category: ".toLowerCase())){
-//            return new BakeryBuilder();
-//        }else if(category.toLowerCase().equals("Groceries Category: ".toLowerCase())){
-//            return new GroceriesItemBuilder();
-//        }
-//        return null;
-//    }
+
 
     //find the item in inventories
     public Item findTheItem(Item itemSup){
@@ -76,8 +67,9 @@ public class WareHouse {
     //find the item in itembought list
     public void findItemInBought(String iName, double quantity){
         for(int i=0; i<this.getItemsBought().size();i++){
-            if(this.getItemsBought().get(i).equals(iName)){
+            if(this.getItemsBought().get(i).getName().equals(iName)){
                 this.getItemsBought().get(i).setQuantityBought(this.getItemsBought().get(i).getQuantityBought()+quantity);
+
             }
         }
 
@@ -91,12 +83,12 @@ public class WareHouse {
         double totalQuantitySold = 0;
         for(int i=0; i<this.itemsBought.size(); i++){
             if(this.itemsBought.get(i).getType().toLowerCase().equals(ans.toLowerCase())){
-                totalQuantityBought += this.itemsBought.get(i).getQuantity();
+                totalQuantityBought += this.itemsBought.get(i).getQuantityBought();
             }
         }
         for(int i=0; i<this.itemsSold.size();i++){
             if(this.itemsSold.get(i).getType().toLowerCase().equals(ans.toLowerCase())){
-                totalQuantitySold += this.itemsSold.get(i).getQuantity();
+                totalQuantitySold += this.itemsSold.get(i).getQuantitySold();
             }
         }
         System.out.println("Quantity of "+ ans + " items bought : " + totalQuantityBought);
@@ -107,7 +99,7 @@ public class WareHouse {
     public boolean findItemInSold(String iName, double quantity){
         boolean checkItem = false;
         for(int i=0; i<this.itemsSold.size();i++){
-            if(this.itemsSold.get(i).equals(iName)){
+            if(this.itemsSold.get(i).getName().equals(iName)){
                 checkItem = true;
                 this.itemsSold.get(i).setQuantitySold(this.itemsSold.get(i).getQuantitySold()+quantity);
             }
@@ -118,7 +110,6 @@ public class WareHouse {
 
     }
     public Item createItemSold(Item itemWareHouse, double quantity){
-        //this.iBuilder = createBuilder(itemWareHouse.getCategory());
 
         this.iBuilder = AbstractFactory.factoryMethod(itemWareHouse.getCategory()).makeItem();
         this.iBuilder.buildUniqueId(itemWareHouse.getUniqueId() );
@@ -130,6 +121,7 @@ public class WareHouse {
         //setting the selling price
         this.iBuilder.buildSellingPriceAndQuantity(itemWareHouse.getPrice()*1.35, quantity);
 
+        this.iBuilder.getItem().setQuantitySold(quantity);
         this.itemsSold.add(this.iBuilder.getItem());
 
         return this.iBuilder.getItem();
@@ -138,7 +130,6 @@ public class WareHouse {
 
     //building new Item Object for bought Item tracking
     public Item createItemBought(Item itemWareHouse, double quantity){
-        //this.iBuilder = createBuilder(itemWareHouse.getCategory());
 
         this.iBuilder = AbstractFactory.factoryMethod(itemWareHouse.getCategory()).makeItem();
         this.iBuilder.buildUniqueId(itemWareHouse.getUniqueId() );
@@ -150,6 +141,7 @@ public class WareHouse {
         //setting the selling price
         this.iBuilder.buildSellingPriceAndQuantity(itemWareHouse.getPrice()*1.35, quantity);
 
+        this.iBuilder.getItem().setQuantityBought(quantity);
         this.itemsBought.add(this.iBuilder.getItem());
 
         return this.iBuilder.getItem();
