@@ -42,17 +42,6 @@ public class Supplier {
     }
 
 
-
-    /*public ICategoryBuilder createBuilder(String category){
-        if(category.toLowerCase().equals("freshproduct")){
-            return new FreshProductBuilder();
-        }else if(category.toLowerCase().equals("bakery")){
-            return new BakeryBuilder();
-        }else if(category.toLowerCase().equals("grocery")){
-            return new GroceriesItemBuilder();
-        }
-        return null;
-    }*/
     public void generateCatalogs(){
         itemsData = ExcelDataReader.fetchExcelData();
 
@@ -68,7 +57,7 @@ public class Supplier {
                     catalogs.add(c1);
 
             }
-            //ICategoryBuilder i1 = createBuilder(row.get("Column3")+"");
+
             //we are creating the object of a builder using factory design pattern
             ICategoryBuilder i1 = AbstractFactory.factoryMethod(row.get("Column3")+"".toLowerCase()).makeItem();
             c1.createItem(row, i1);

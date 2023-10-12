@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class WareHouse {
-    private Scanner sc = new Scanner(System.in);
+
     private ICategoryBuilder iBuilder;
     private ArrayList<Item> inventories = new ArrayList<>();
     private ArrayList<Item> itemsSold = new ArrayList<>();
@@ -86,7 +86,7 @@ public class WareHouse {
     //finding the list of items which have same type
     public void findItemByType(){
         System.out.println("Please enter a item type : ");
-        String ans = sc.nextLine();
+        String ans = HardCodedValue.SCANNER.nextLine();
         double totalQuantityBought = 0;
         double totalQuantitySold = 0;
         for(int i=0; i<this.itemsBought.size(); i++){
@@ -170,7 +170,7 @@ public class WareHouse {
             try{
                 checker= false;
                 System.out.println("Please enter an Item Index!");
-                ans = Integer.parseInt(sc.nextLine());
+                ans = Integer.parseInt(HardCodedValue.SCANNER.nextLine());
 
             }catch(Exception e){
                 checker = true;
@@ -188,20 +188,14 @@ public class WareHouse {
     //search item by name
     public Item searchByName(Map<String, Item> itemsMapByN){
         System.out.println("Please enter an Item name!");
-        String name = sc.nextLine().toLowerCase();
+        String name = HardCodedValue.SCANNER.nextLine().toLowerCase();
         if(itemsMapByN.containsKey(name)){
             return itemsMapByN.get(name);
         }
 
         return null;
     }
-    public Scanner getSc() {
-        return sc;
-    }
 
-    public void setSc(Scanner sc) {
-        this.sc = sc;
-    }
 
     public ICategoryBuilder getiBuilder() {
         return iBuilder;

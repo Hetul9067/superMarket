@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class DisplaySuperMarket {
     public static boolean newLogin = true;
-    private static Scanner sc = new Scanner(System.in);
+    //private static Scanner sc = new Scanner(System.in);
     public static int display(){
         if(newLogin){
             System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
@@ -37,7 +37,7 @@ public class DisplaySuperMarket {
             try{
                 checker = false;
                 System.out.println("Please enter the require option(1 to 5): ");
-                ans = Integer.parseInt(sc.nextLine());
+                ans = Integer.parseInt(HardCodedValue.SCANNER.nextLine());
 
                 if(ans <1 || ans>5) throw new CustomException("error1");
             }catch(CustomException ce){

@@ -16,20 +16,15 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class SuperMarket {
-    private Scanner sc = new Scanner(System.in);
+
     private double pay = 0;
-    //private ArrayList<Item> inventories = new ArrayList<>();
+
 
     private double budget = HardCodedValue.BUDGET;
-    //private ArrayList<Item> itemsSold = new ArrayList<>();
-//    private ArrayList<Item> itemsBought = new ArrayList<>();
 
-//    private Map<Integer, Item> itemsMapById= new HashMap<>();
-//    private Map<String, Item> itemsMapByName= new HashMap<>();
     private double itemPurchasedCost = 0;
     private double amountPaidEmployees = 0;
-//    private int totalItemBought =0;
-//    private int totalItemSold =0;
+
     private double totalExpanses = 0;
     private double totalSales = 0;
     private double totalProfit = 0;
@@ -82,7 +77,7 @@ public class SuperMarket {
             try{
                 checker= false;
                 System.out.println("please enter a value!");
-                ans = Integer.parseInt(sc.nextLine());
+                ans = Integer.parseInt(HardCodedValue.SCANNER.nextLine());
                 if(ans<1 || ans> range) throw new CustomException("error1");
             }catch(CustomException ce){
                 checker = true;
@@ -107,7 +102,7 @@ public class SuperMarket {
             try{
                 checker= false;
                 System.out.println(msg);
-                ans = Double.parseDouble(sc.nextLine());
+                ans = Double.parseDouble(HardCodedValue.SCANNER.nextLine());
 
             }catch(Exception e){
                 checker = true;

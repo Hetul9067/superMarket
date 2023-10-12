@@ -44,9 +44,6 @@ public class Catalog {
     }
 
 
-    public Item getItem(){
-        return null;
-    }
 
     public List<Map<String, Object>> getItemsData() {
         return itemsData;
@@ -87,4 +84,6 @@ public class Catalog {
     public void setSearchByIndex(Map<Integer, Item> searchByIndex) {
         this.searchByIndex = searchByIndex;
     }
+
+
 }
