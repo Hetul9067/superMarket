@@ -71,6 +71,15 @@ public class DisplaySuperMarket {
 //    }
 
 
+    //display all the items from the supplier catalog
+    public static void displaySupplierItems(ArrayList<Item> items){
+        System.out.println("UniqueId || Name         ||   SellingPrice   ||   Category   ||   Type   ||   Description   ||");
+        for(Item i : items){
+
+            System.out.println(i.getUniqueId() + "    || "+
+                    i.getName() + "    ||    "+ i.getPrice() + "    ||   "+i.getCategory() + "    || "+i.getType() + "    || "+i.getDescription()+" ||");
+        }
+    }
     //display all the items from the list
     public static void displayItems(ArrayList<Item> items){
         System.out.println("UniqueId || Name         ||   BuyingPrice    ||   SellingPrice   ||   Quantity   ||   Category   ||   Type   ||   Description   ||");

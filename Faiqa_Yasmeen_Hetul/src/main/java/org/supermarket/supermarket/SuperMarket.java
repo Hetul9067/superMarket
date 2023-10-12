@@ -7,6 +7,7 @@ import org.supermarket.products.Item;
 import org.supermarket.supplier.Catalog;
 import org.supermarket.supplier.Supplier;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -33,11 +34,13 @@ public class SuperMarket {
     private double totalSales = 0;
     private double totalProfit = 0;
     private Supplier supplier;
+    private ArrayList<Employee> employees = new ArrayList<>();
 
     private WareHouse wareHouse;
     public SuperMarket(Supplier sup){
         this.wareHouse = new WareHouse();
         this.supplier = sup;
+
     }
 
     public void displaySuperMarket(){
@@ -121,6 +124,35 @@ public class SuperMarket {
 
 
 
+    //Checking the item is available or not in supplier's catalog
+    public Item superMarketItemChecker(int ans2){
+        Item i1 = null;
+        do{
+            switch(ans2){
+                case 1:
+                    i1 = this.wareHouse.searchById(this.wareHouse.getItemsMapById());
+                    break;
+                case 2:
+                    i1 = this.wareHouse.searchByName(this.wareHouse.getItemsMapByName());
+                    break;
+            }
+
+            if(i1==null){
+                System.out.println("Sorry, we don't have that item");
+                System.out.println("do you wanna sell another item?");
+                System.out.println("1. Yes");
+                System.out.println("2. No");
+                int inp = userInputChecker(2);
+                if(inp == 2) {
+                    System.out.println("Now we are going out from the selling section!");
+                    return null;
+                }
+            }
+        }while(i1==null);
+
+        return i1;
+    }
+
 
     // sell the item
     public void sellInventory(){
@@ -129,6 +161,15 @@ public class SuperMarket {
         System.out.println("====================");
         System.out.println("Sell Item section : ");
         System.out.println("====================");
+        if(this.wareHouse.getInventories().isEmpty()){
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("Sorry!! we don't have any item to sell");
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("Returning to the main menu");
+            return;
+
+        }
+
         DisplaySuperMarket.displayItems(this.wareHouse.getInventories());
         //int ans = userInputChecker(inventories.size());
 
@@ -137,30 +178,27 @@ public class SuperMarket {
         int ans2 = userInputChecker(2);
 
 
-        Item i1 = null;
-        switch(ans2){
-            case 1:
-                i1 = this.wareHouse.searchById(this.wareHouse.getItemsMapById());
-                break;
-            case 2:
-               i1 = this.wareHouse.searchByName(this.wareHouse.getItemsMapByName());
-                break;
-        }
+        //for checking the item in supermarket warehouse
+        Item i1 = superMarketItemChecker(ans2);
+        if(i1 == null) return;
+
         double quantity= userInputDoubleChecker("Please enter the quantity");
 
         if(i1.getQuantity() < quantity){
             System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
             System.out.println("We don't have an enough quantity to sell!");
+
             System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+            return;
         }else{
             i1.setQuantity(i1.getQuantity()-quantity);
             this.wareHouse.setTotalItemSold(this.wareHouse.getTotalItemSold()+quantity);
-            double sold = (i1.getQuantity()*i1.getSellingPrice());
+            double sold = (quantity*i1.getSellingPrice());
             totalSales += sold;
-            totalProfit += (sold - (i1.getQuantity()*i1.getPrice()));
+            totalProfit += (sold - (quantity*i1.getPrice()));
             budget += sold;
 
-            boolean itemInSoldChecker = this.wareHouse.findItemInSold(i1.getName(), i1.getQuantity());
+            boolean itemInSoldChecker = this.wareHouse.findItemInSold(i1.getName(), quantity);
             if(!itemInSoldChecker){
 
                 this.wareHouse.addItemsSold(i1, quantity);
@@ -169,10 +207,40 @@ public class SuperMarket {
 
         }
 
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        System.out.println("We have successfully sold a item("+ i1.getName()+") of quantity : "+ quantity);
+        System.out.println("-----------------------------------------------------------------------------");
 
     }
 
 
+    //Checking the item is available or not in supplier's catalog
+    public Item supplierItemChecker(int ans2, Catalog c){
+        Item iSup1 = null;
+        do{
+            switch(ans2){
+                case 1:
+                    iSup1 = this.wareHouse.searchById(c.getSearchByIndex());
+                    break;
+                case 2:
+                    iSup1 = this.wareHouse.searchByName(c.getSearchByName());
+                    break;
+            }
+            if(iSup1==null){
+                System.out.println("Sorry, we don't have that item");
+                System.out.println("do you wanna buy another item?");
+                System.out.println("1. Yes");
+                System.out.println("2. No");
+                int inp = userInputChecker(2);
+                if(inp == 2) {
+                    System.out.println("Now we are going out from the buying section!");
+                    return null;
+                }
+            }
+        }while(iSup1==null);
+
+        return iSup1;
+    }
 
     //buy the item
     public void buyInventory(){
@@ -181,26 +249,55 @@ public class SuperMarket {
         System.out.println("Please enter a catalog number which you wanna see!");
         int cNumber= userInputChecker(supplier.getCatalogs().size());
         Catalog c = supplier.getCatalogs().get(cNumber-1);
-        DisplaySuperMarket.displayItems(c.getItems());
+        DisplaySuperMarket.displaySupplierItems(c.getItems());
 
         System.out.println("Do you wanna buy item by index number or name!");
         DisplaySuperMarket.displayItemSearchOption();
         int ans2 = userInputChecker(2);
 
-
-        Item iSup1 = null;
-        switch(ans2){
-            case 1:
-                iSup1 = this.wareHouse.searchById(c.getSearchByIndex());
-                break;
-            case 2:
-                iSup1 = this.wareHouse.searchByName(c.getSearchByName());
-                break;
-        }
+        //Checking the item is available or not in supplier's catalog
+        Item iSup1 = supplierItemChecker(ans2, c);
 
 
 
-        double quantity= userInputDoubleChecker("Please enter the quantity");
+        if(iSup1== null) return;
+
+        double quantity  = 0;
+
+        boolean fundChecker = false;
+        do{
+            fundChecker = false;
+            quantity= userInputDoubleChecker("Please enter the quantity");
+            if(this.budget < (quantity* iSup1.getPrice())){
+
+                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+                System.out.println("ough, insufficient fund!!");
+                System.out.println("you should check your pocket before buying anything buddy!");
+                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+                System.out.println();
+                System.out.println();
+
+                System.out.println("Do you wanna reenter the quantity???");
+                System.out.println("1. Yes");
+                System.out.println("2. No");
+                int input = userInputChecker(2);
+                fundChecker = (input == 1) ;
+
+                if(input == 2) {
+                    System.out.println("Now we are going out from the buying section!");
+                    return;
+                }
+
+
+            }
+
+
+        }while(fundChecker);
+
+
+
 
         Item checkedItem = this.wareHouse.findTheItem(iSup1);
         if(checkedItem== null){
@@ -219,9 +316,9 @@ public class SuperMarket {
         this.budget -= (checkedItem.getPrice() * quantity);
 
 
-
-
-
+        System.out.println("#####################################################################################");
+        System.out.println("We have successfully bought a item("+ iSup1.getName()+") of "+ quantity+ " quantity!");
+        System.out.println("#####################################################################################");
 
 
 
@@ -265,7 +362,32 @@ public class SuperMarket {
 
     }
     public void payEmployees(){
+        LocalDateTime ld = this.employees.get(0).getLastPayTime();
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        long minutes = Duration.between(ld, currentDateTime).toMinutes();
 
+        if(minutes>0){
+
+            System.out.println("minutes worked : "+ minutes);
+            double salary = minutes * 2600;
+
+            for(Employee e : employees){
+                e.setLastPayTime(currentDateTime);
+                e.setSalary(e.getSalary()+salary);
+                this.totalExpanses += salary;
+                this.budget -= salary;
+            }
+
+            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+            System.out.println("Salary has been paid to the employees successfully!");
+            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+            System.out.println();
+            System.out.println();
+        }else{
+            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+            System.out.println("Employees have been paid already!");
+            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        }
     }
 
     public double getPay() {
@@ -316,6 +438,11 @@ public class SuperMarket {
 //        this.totalItemSold = totalItemSold;
 //    }
 
+
+    public void addEmployee(Employee e){
+        this.employees.add(e);
+    }
+
     public double getTotalExpanses() {
         return totalExpanses;
     }
@@ -346,5 +473,29 @@ public class SuperMarket {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    public double getBudget() {
+        return budget;
+    }
+
+    public void setBudget(double budget) {
+        this.budget = budget;
+    }
+
+    public ArrayList<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(ArrayList<Employee> employees) {
+        this.employees = employees;
+    }
+
+    public WareHouse getWareHouse() {
+        return wareHouse;
+    }
+
+    public void setWareHouse(WareHouse wareHouse) {
+        this.wareHouse = wareHouse;
     }
 }

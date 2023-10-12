@@ -43,7 +43,7 @@ public class WareHouse {
         this.itemsMapByName.put(this.iBuilder.getItem().getName(), this.iBuilder.getItem());
 
         //we are creating new item object and passing it to the itemsBought list
-        this.itemsBought.add(this.createItemBought(this.iBuilder.getItem(), quantity));
+        this.createItemBought(this.iBuilder.getItem(), quantity);
         this.totalItemBought+= quantity;
 
         return this.iBuilder.getItem();
@@ -131,6 +131,8 @@ public class WareHouse {
         return this.iBuilder.getItem();
     }
 
+
+    //building new Item Object for bought Item tracking
     public Item createItemBought(Item itemWareHouse, double quantity){
         this.iBuilder = createBuilder(itemWareHouse.getCategory());
 
@@ -150,7 +152,7 @@ public class WareHouse {
 
 
     public void addItemsSold(Item item, double quantity){
-        this.itemsSold.add(this.createItemSold(item, quantity));
+        this.createItemSold(item, quantity);
 
     }
 
