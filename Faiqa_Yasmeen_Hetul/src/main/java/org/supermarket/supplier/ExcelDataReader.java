@@ -1,5 +1,6 @@
 package org.supermarket.supplier;
 
+import java.net.URL;
 import java.util.*;
 
 import org.apache.poi.ss.usermodel.*;
@@ -17,7 +18,22 @@ public class ExcelDataReader {
 
     public static List<Map<String, Object>> fetchExcelData() {
         List<Map<String, Object>>  excelData = new ArrayList<>();
-        try (FileInputStream fileInputStream = new FileInputStream(new File("src/main/resources/items.xlsx"));
+        URL resourceURL = ExcelDataReader.class.getResource("/items.xlsx");
+
+        String filePath="";
+        if(resourceURL != null){
+            filePath = resourceURL.getPath();
+            if(filePath.startsWith("/")){
+                filePath = filePath.substring(1);
+            }
+            filePath = filePath.replace("%20"," ");
+
+
+        }else {
+            System.out.println("Resource not found.");
+        }
+        //try (FileInputStream fileInputStream = new FileInputStream(new File("src/main/resources/items.xlsx"));
+        try(FileInputStream fileInputStream = new FileInputStream(new File(filePath));
              Workbook workbook = WorkbookFactory.create(fileInputStream)) {
 
             // Assuming you're reading data from the first sheet

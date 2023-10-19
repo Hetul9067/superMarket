@@ -78,7 +78,7 @@ public class WareHouse {
     //finding the list of items which have same type
     public void findItemByType(){
         System.out.println("Please enter a item type : ");
-        String ans = HardCodedValue.SCANNER.nextLine();
+        String ans = HardCodedValue.SCANNER.nextLine().toLowerCase();
         double totalQuantityBought = 0;
         double totalQuantitySold = 0;
         for(int i=0; i<this.itemsBought.size(); i++){
